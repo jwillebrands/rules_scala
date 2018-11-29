@@ -326,17 +326,16 @@ class ScalacProcessor implements Processor {
 
   private static String getResourcePath(Path source, String resourceStripPrefix)
       throws RuntimeException {
-    String sourcePath = source.toString();
     // check if the Resource file is under the specified prefix to strip
-    if (!sourcePath.startsWith(resourceStripPrefix)) {
+    if (!source.startsWith(resourceStripPrefix)) {
       // Resource File is not under the specified prefix to strip
       throw new RuntimeException(
           "Resource File "
-              + sourcePath
+              + source.toString()
               + " is not under the specified strip prefix "
               + resourceStripPrefix);
     }
-    String newResPath = sourcePath.substring(resourceStripPrefix.length());
+    String newResPath = Paths.get(resourceStripPrefix).relativize(source).toString();
     return newResPath;
   }
 
